@@ -27,7 +27,7 @@ Resources:
     Properties:
       CodeUri: data_generation/
       Handler: app.lambda_handler
-      Runtime: python3.9
+      Runtime: python3.10
       Architectures:
         - x86_64
       Events:

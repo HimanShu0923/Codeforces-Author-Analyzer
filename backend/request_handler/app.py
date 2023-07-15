@@ -9,11 +9,13 @@ def lambda_handler(event, context):
     input : {"body" : <string>}
     outptut : { output schema }
     """
-    
+    author = body.get("author")
+
+    #TODO: Fetch data from database and return the data.
+
     return {
         "statusCode": 200,
         "body": json.dumps({
-            "message": "hello world",
-            # "location": ip.text.replace("\n", "")
+            "message": f"Author name : {author}"
         }),
     }

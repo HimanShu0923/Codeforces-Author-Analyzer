@@ -8,11 +8,12 @@ def lambda_handler(event, context):
     input : None
     outptut : { output schema }
     """
+
+    #TODO: Database updation from codeforces API
     
     return {
         "statusCode": 200,
         "body": json.dumps({
-            "message": "hello world",
-            # "location": ip.text.replace("\n", "")
+            "message": "Hello there!"
         }),
     }
