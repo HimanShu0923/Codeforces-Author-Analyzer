@@ -9,7 +9,8 @@ def lambda_handler(event, context):
     input : {"body" : <string>}
     outptut : { output schema }
     """
-    author = body.get("author")
+    body = json.loads(event.get("body"))
+    author=  body.get("author")
 
     #TODO: Fetch data from database and return the data.
 
