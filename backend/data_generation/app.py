@@ -1,6 +1,7 @@
 import json
 import requests
 import logging
+import time
 from bs4 import BeautifulSoup
 from models import Content
 logger = logging.getLogger(__name__)
@@ -116,6 +117,7 @@ def lambda_handler(event, context):
                     Problems=problems
                 )
                 content.save()
+            time.sleep(3)
     except Exception as e:
         return {
             "error" : e,
