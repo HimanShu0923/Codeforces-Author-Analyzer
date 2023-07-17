@@ -1,5 +1,10 @@
 import json
 import boto3
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
 dynamodb = boto3.resource("dynamodb")
 TABLE_NAME = "Codeforces-Author-Analyzer"
 CODEFORCES_BASE_URL = "https://codeforces.com/problemset/problem"
@@ -20,6 +25,7 @@ def lambda_handler(event, context):
     """
     body = json.loads(event.get("body"))
     author=  body.get("author")
+    logger.info(f"Author  : {author}")
     
     response = table.get_item(
         TableName=TABLE_NAME,
@@ -40,6 +46,7 @@ def lambda_handler(event, context):
     problems = row.get("Problems")
     response = {}
     
+    
     for problem in problems:
         problem_obj = {"problem_url" : create_url(problem.get("contestId"), problem.get("index")), "name" : problem.get("name")}
         tags = problem.get("tags")
@@ -49,8 +56,10 @@ def lambda_handler(event, context):
             else:
                 response[tag] = [problem_obj]
     
+    logger.info("returning the response")
+    
     return {
-        "statusCode": 200,
+        "statusCode": '200',
         "body": json.dumps({
             "message": f"{response}"
         }),

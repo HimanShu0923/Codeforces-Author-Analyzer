@@ -15,7 +15,7 @@ codeuri = "/home/nightsky/Projects/Codeforces-Author-Analyzer/backend/data_gener
 runtime = "python3.10"
 architecture = "x86_64"
 handler = "app.lambda_handler"
-manifest_hash = "748401a9722bf769bd8202f56745a5e7"
+manifest_hash = "b10ae792f48d01770314413e187e867f"
 packagetype = "Zip"
 functions = ["DataGeneration"]
 
