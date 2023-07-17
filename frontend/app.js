@@ -50,7 +50,6 @@ submit_Form.addEventListener("submit", (e) => {
 function show(data) {
     console.log("mil gya");
     messageObj = data.message;
-    messageObj = JSON.parse(messageObj.replace(/'/g, '"'));
     let tab = `<div class="accordion-item accordionbtn">`;
 
     Object.keys(messageObj).forEach(key => {
@@ -101,3 +100,4 @@ ban.onclick = function () {
     mdl.style.display = "none";
     console.log("Hello ban");
 }
+
