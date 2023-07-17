@@ -24,6 +24,8 @@ async function getData(author_name) {
 
     if (response.status === 404) {
         document.getElementById("empty").innerHTML = "<strong>Sorry No Data Found !!</strong>";
+        var barGraph = document.getElementsByClassName('barGraph')[0];
+        barGraph.innerHTML = "";
         console.log("Kuch na mila");
     }
     else {
@@ -40,7 +42,13 @@ submit_Form.addEventListener("submit", (e) => {
     document.getElementById("accordionPanelsStayOpenExample").innerHTML = tab;
     let author_name = document.getElementById("userIdInput").value;
     console.log(author_name);
-
+    if(author_name == ""){
+        document.getElementById("empty").innerHTML = "";
+        var barGraph = document.getElementsByClassName('barGraph')[0];
+        barGraph.innerHTML = "";
+        console.log("Kuch na mila");
+        return;
+    }
     var loader = document.getElementById("invalidWarning");
     loader.style.display = "inline";
 
@@ -49,42 +57,51 @@ submit_Form.addEventListener("submit", (e) => {
 
 function show(data) {
     console.log("mil gya");
+    var totalQuestions = new Set();
     messageObj = data.message;
     let tab = `<div class="accordion-item accordionbtn">`;
 
-    Object.keys(messageObj).forEach(key => {
+    Object.keys(messageObj).forEach((key, index) => {
 
         tab += ` <h2 class="accordion-header">
-        <button class="accordion-button accordpart1" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+        <button class="accordion-button accordpart1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse${index}" aria-expanded="true" aria-controls="panelsStayOpen-collapse${index}">
             <strong>${key.toUpperCase()}</strong>
         </button>
       </h2>`;
 
-        console.log(`Key: ${key}`);
-
         messageObj[key].forEach(obj => {
 
-            tab += ` <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+            tab += ` <div id="panelsStayOpen-collapse${index}" class="accordion-collapse collapse collapsed">
             <div class="accordion-body accordpart2">
                 <ul>
                     <li>
                         <p>
-                            <strong>Problem URL :</strong> ${obj.problem_url}
-                        </p>    
-                        <p>
-                            <strong>Problem Name :</strong> ${obj.name.toUpperCase()}
-                        </p> 
+                            <strong>Problem Name :</strong> <a href="${obj.problem_url}" target="_blank">${obj.name.toUpperCase()}</a>
+                        </p>
                     </li>
                 </ul>
             </div>
           </div>
         </div>`;
-            console.log(`Problem URL: ${obj.problem_url}`);
-            console.log(`Name: ${obj.name}`);
+            totalQuestions.add(obj.problem_url)
         });
 
         document.getElementById("accordionPanelsStayOpenExample").innerHTML = tab;
     });
+
+    var barElement = "";
+    Object.keys(messageObj).forEach((key, index) => {
+
+        questions = messageObj[key].length
+        var temp = (questions / totalQuestions.size) * 100;
+        barElement += `<div class="graph-legend">${key}</div>
+        <span class="graph-barBack">
+            <li class="graph-bar" data-value=${temp} style="width:${temp}%">
+            </li>
+        </span> `;
+    });
+    var barGraph = document.getElementsByClassName('barGraph')[0];
+    barGraph.innerHTML = barElement;
 }
 
 var btn = document.getElementById("myBtn");
